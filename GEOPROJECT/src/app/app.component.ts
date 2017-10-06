@@ -44,7 +44,13 @@ export class AppComponent implements OnInit{
           that.http.get('assets/regions.geojson')
               .subscribe((res: any) => {
                 const geojson: GeoJsonObject = res.json();
-                L.geoJSON(geojson).addTo(map);
+                L.geoJSON(geojson, {
+                  style: function(feature) {
+                    switch (feature.properties.code) {
+                      case '53': return {color: "#ff0000"};
+                    }
+                  }
+                }).addTo(map);
                 console.log("MAP", map);
               });
         },
