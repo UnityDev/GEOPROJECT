@@ -32,8 +32,8 @@ export class AppComponent implements OnInit{
       layers: [
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
       ],
-      zoom: 5,
-      center: L.latLng([ 46.879966, -121.726909 ])
+      zoom: 4,
+      center: L.latLng([ 46.85, 2.3518 ])
     };
   }
 
@@ -52,9 +52,10 @@ export class AppComponent implements OnInit{
                   }
                 }).addTo(map);
                 console.log("MAP", map);
+                map.setView(new L.LatLng(46.85, 2.3518), 6);
               });
         },
-        5000);
+        100);
   }
 }
 
