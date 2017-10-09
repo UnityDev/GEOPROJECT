@@ -22,6 +22,8 @@ export class AppComponent implements OnInit{
 
   fileContent;
 
+  regions: string[] = [];
+
 
 
   constructor(private http: Http) {
@@ -35,9 +37,11 @@ export class AppComponent implements OnInit{
       zoom: 4,
       center: L.latLng([ 46.85, 2.3518 ])
     };
+
+    this.parseGeoJson();
   }
 
- onMapReady(map: L.Map) {
+ private onMapReady(map: L.Map) {
     const that = this;
     setTimeout(
         function() {
@@ -51,11 +55,29 @@ export class AppComponent implements OnInit{
                     }
                   }
                 }).addTo(map);
-                console.log("MAP", map);
+                console.log("geojson", geojson);
                 map.setView(new L.LatLng(46.85, 2.3518), 6);
+                map.eachLayer(function(layer: any){
+                    console.log(layer);
+                    if (layer.feature) {
+                        layer.bindPopup(layer.feature.properties.nom);
+                    }
+                });
               });
         },
         100);
+  }
+
+  private parseGeoJson() {
+    this.http.get('assets/regions.geojson')
+        .subscribe((res: any) => {
+            const content = res.json();
+            console.log(content);
+            for (let feature of content.features) {
+                this.regions.push(feature.properties);
+            }
+        }
+        );
   }
 }
 
