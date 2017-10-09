@@ -1,4 +1,7 @@
 #map{
-    width:100%;
-    min-height: 100vh;
+    min-height: 600px;
+}
+
+#cont {
+    margin-top: 100px;
 }
