@@ -1,7 +1,6 @@
 #map{
-    min-height: 600px;
+    min-height: 100vh;
 }
 
 #cont {
-    margin-top: 100px;
 }

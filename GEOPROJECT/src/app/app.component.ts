@@ -24,10 +24,9 @@ export class AppComponent implements OnInit {
 
     regions: string[] = [];
 
+
+
     region = {
-        nom: "",
-        code: -1,
-        langue: ""
     };
 
 
@@ -56,12 +55,12 @@ export class AppComponent implements OnInit {
                     .subscribe((res: any) => {
                         const geojson: GeoJsonObject = res.json();
                         L.geoJSON(geojson, {
-                            style: function (feature) {
+                            /*style: function (feature) {
                                 switch (feature.properties.code) {
                                     case '53':
                                         return {color: "#ff0000"};
                                 }
-                            }
+                            }*/
                         }).addTo(map);
                         console.log("geojson", geojson);
                         map.setView(new L.LatLng(46.85, 2.3518), 5);
@@ -88,14 +87,22 @@ export class AppComponent implements OnInit {
         this.http.get('assets/regions.geojson')
             .subscribe((res: any) => {
                     const content = res.json();
-                    console.log(content);
-                    for (let feature of content.features) {
-                        this.regions.push(feature.properties);
+                    for (const feature of content.features) {
+                        console.log(feature);
+                        this.regions.push(feature);
                     }
                 }
             );
     }
 
+
+    private clickOnRegion (region: any) {
+        this.region = region.properties;
+        console.log(region);
+        const geojson: GeoJsonObject = region;
+        const geojson2 = L.geoJSON(geojson);
+        this.mapLocal.fitBounds(geojson2.getBounds());
+    }
     private reset() {
         this.mapLocal.setView(new L.LatLng(46.85, 2.3518), 5);
     }
