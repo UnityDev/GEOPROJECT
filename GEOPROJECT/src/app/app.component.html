@@ -12,7 +12,7 @@
                 {{region.code}} - {{region.nom}}
             </div>
             <div class="row" *ngFor="let r of regions">
-                <button (click)="clickOnRegion(r)">{{r.properties.code}} - {{r.properties.nom}}</button>
+                <button (click)="clickOnRegion(r.feature)">{{r.code}} - {{r.nom}}</button>
             </div>
 
         </div>

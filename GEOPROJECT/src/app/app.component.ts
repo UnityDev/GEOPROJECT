@@ -7,6 +7,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {GeoJsonObject} from "geojson";
 import {GeoJSONOptions, StyleFunction} from "leaflet";
+import {Commune, Departement, Region} from "./shared/model";
 
 @Component({
   selector: "app-root",
@@ -21,10 +22,11 @@ export class AppComponent implements OnInit {
 
   fileContent;
 
-  regions: string[] = [];
+  regions: Region[] = [];
+  departements: Departement[] = [];
+  communes: Commune[] = [];
 
-
-  region = {};
+  region: Region = new Region();
 
 
   constructor(private http: Http) {
@@ -98,21 +100,71 @@ export class AppComponent implements OnInit {
     map.dragging.disable();
   }
 
-  private parseGeoJson() {
+  private parseGeoJsonRegion() {
     this.http.get("assets/regions.geojson")
       .subscribe((res: any) => {
           const content = res.json();
           for (const feature of content.features) {
             console.log(feature);
-            this.regions.push(feature);
+            const region: Region = new Region();
+            region.code = feature.properties.code;
+            region.nom = feature.properties.nom;
+            region.feature = feature;
+            this.regions.push(region);
           }
         }
       );
   }
 
+  private parseGeoJsonDpt() {
+    this.http.get("assets/departements-avec-outre-mer.geojson")
+      .subscribe((res: any) => {
+          const content = res.json();
+          for (const feature of content.features) {
+            const dpt: Departement = new Departement();
+            dpt.code = feature.properties.code;
+            dpt.nom = feature.properties.nom;
+            dpt.feature = feature;
+            this.departements.push(dpt);
+          }
+        }
+      );
+  }
+
+  private parseGeoJsonCommunes() {
+    this.http.get("assets/communes-avec-outre-mer.geojson")
+      .subscribe((res: any) => {
+          const content = res.json();
+          for (const feature of content.features) {
+            const com: Commune = new Commune();
+            com.code = feature.properties.code;
+            com.nom = feature.properties.nom;
+            com.feature = feature;
+            this.communes.push(com);
+          }
+        }
+      );
+  }
+
+  private parseGeoJsonMetropoles() {
+    this.http.get("assets/metropole.geojson")
+      .subscribe((res: any) => {
+          const content = res.json();
+          console.log("METROPOLE", content);
+        }
+      );
+  }
+
+  private parseGeoJson() {
+    this.parseGeoJsonCommunes();
+    this.parseGeoJsonDpt();
+    this.parseGeoJsonRegion();
+    this.parseGeoJsonMetropoles();
+  }
+
 
   private clickOnRegion(region: any) {
-    this.region = region.properties;
+    this.region = region;
     console.log(region);
     const geojson: GeoJsonObject = region;
     const geojson2 = L.geoJSON(geojson);
