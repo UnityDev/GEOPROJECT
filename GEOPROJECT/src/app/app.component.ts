@@ -1,20 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import * as L from 'leaflet';
-import * as GEOJSON from 'geojson';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import {Component, OnInit} from "@angular/core";
+import * as L from "leaflet";
+import * as GEOJSON from "geojson";
+import {Http, Response, Headers, RequestOptions} from "@angular/http";
+import {Observable} from "rxjs/Rx";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 import {GeoJsonObject} from "geojson";
 import {GeoJSONOptions, StyleFunction} from "leaflet";
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
-    title = 'app';
+    title = "app";
 
 
     options = null;
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
 
         this.options = {
             layers: [
-                L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...'})
+                L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom: 18, attribution: "..."})
             ],
             zoom: 4,
             center: L.latLng([46.85, 2.3518])
@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
                         }*/
                         ).addTo(map);
                         console.log("geojson", geojson);
-                        map.setView(new L.LatLng(46.85, 2.3518), 5);
+                        map.setView(new L.LatLng(46.85, 2.3518), 4);
                         map.eachLayer(function (layer: any) {
                             if (layer.feature) {
                                 layer.bindPopup(layer.feature.properties.nom);
@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
     }
 
     private parseGeoJson() {
-        this.http.get('assets/regions.geojson')
+        this.http.get("assets/regions.geojson")
             .subscribe((res: any) => {
                     const content = res.json();
                     for (const feature of content.features) {
