@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {GeoJsonObject} from "geojson";
+import {GeoJSONOptions, StyleFunction} from "leaflet";
 
 @Component({
     selector: 'app-root',
@@ -25,9 +26,7 @@ export class AppComponent implements OnInit {
     regions: string[] = [];
 
 
-
-    region = {
-    };
+    region = {};
 
 
     constructor(private http: Http) {
@@ -49,19 +48,29 @@ export class AppComponent implements OnInit {
     private onMapReady(map: L.Map) {
         const that = this;
         this.mapLocal = map;
+        this.http.get("assets/metropole.geojson")
+            .subscribe((res: any) => {
+                const geojson: GeoJsonObject = res.json();
+                const poly: L.GeoJSON = L.geoJSON(geojson);
+                map.fitBounds(poly.getBounds());
+                // map.setMaxBounds(poly.getBounds());
+                map.options.minZoom = map.getZoom();
+            });
         setTimeout(
             function () {
-                that.http.get('assets/regions.geojson')
+                that.http.get("assets/regions.geojson")
                     .subscribe((res: any) => {
                         const geojson: GeoJsonObject = res.json();
-                        L.geoJSON(geojson, {
-                            /*style: function (feature) {
+                        L.geoJSON(geojson
+                           /* , {
+                            style: function (feature) {
                                 switch (feature.properties.code) {
                                     case '53':
                                         return {color: "#ff0000"};
                                 }
-                            }*/
-                        }).addTo(map);
+                            }
+                        }*/
+                        ).addTo(map);
                         console.log("geojson", geojson);
                         map.setView(new L.LatLng(46.85, 2.3518), 5);
                         map.eachLayer(function (layer: any) {
@@ -96,13 +105,14 @@ export class AppComponent implements OnInit {
     }
 
 
-    private clickOnRegion (region: any) {
+    private clickOnRegion(region: any) {
         this.region = region.properties;
         console.log(region);
         const geojson: GeoJsonObject = region;
         const geojson2 = L.geoJSON(geojson);
         this.mapLocal.fitBounds(geojson2.getBounds());
     }
+
     private reset() {
         this.mapLocal.setView(new L.LatLng(46.85, 2.3518), 5);
     }
