@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
 
         this.options = {
             layers: [
-                L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom: 18, attribution: "..."})
+                L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom: 12, minZoom: 6, attribution: "..."})
             ],
             zoom: 4,
             center: L.latLng([46.85, 2.3518])
@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
                         }*/
                         ).addTo(map);
                         console.log("geojson", geojson);
-                        map.setView(new L.LatLng(46.85, 2.3518), 4);
+                        map.setView(new L.LatLng(46.85, 2.3518), 6);
                         map.eachLayer(function (layer: any) {
                             if (layer.feature) {
                                 layer.bindPopup(layer.feature.properties.nom);
@@ -90,6 +90,7 @@ export class AppComponent implements OnInit {
                     });
             },
             100);
+        map.dragging.disable();
     }
 
     private parseGeoJson() {
@@ -114,7 +115,7 @@ export class AppComponent implements OnInit {
     }
 
     private reset() {
-        this.mapLocal.setView(new L.LatLng(46.85, 2.3518), 5);
+        this.mapLocal.setView(new L.LatLng(46.85, 2.3518), 6);
     }
 }
 
