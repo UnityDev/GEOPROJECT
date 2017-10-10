@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
         const poly: L.GeoJSON = L.geoJSON(geojson);
         map.fitBounds(poly.getBounds());
         // map.setMaxBounds(poly.getBounds());
-        map.options.minZoom = map.getZoom();
+        // map.options.minZoom = map.getZoom();
       });
     setTimeout(
       function () {
