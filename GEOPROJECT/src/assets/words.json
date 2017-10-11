@@ -1,0 +1,160 @@
+{
+  "oil": {
+    "prefixe": [
+      "au",
+      "bas",
+      "basse",
+      "beau",
+      "bel",
+      "belle",
+
+      "claire",
+      "court",
+      "courte",
+      "franche",
+
+      "grand",
+      "grande",
+      "haut",
+      "haute",
+
+      "mal",
+      "nigre",
+
+      "rouge",
+
+      "sala",
+      "var",
+      "vidu",
+      "vige",
+      "vue"
+
+    ],
+    "suffixe": [
+      "ay",
+      "é",
+      "ey",
+      "ez",
+      "bec",
+      "beuf",
+      "bourg",
+
+      "campagne",
+      "champs",
+      "chapelle",
+      "chateau",
+
+      "crique",
+      "dalle",
+
+      "dame",
+      "eglise",
+
+      "fleu",
+
+      "fontaine",
+      "foret",
+
+      "garde",
+      "iers",
+      "ies",
+
+      "lac",
+
+      "ler",
+      "lers",
+      "lier",
+      "lon",
+      "mont",
+
+      "montagne",
+
+      "tot",
+      "val",
+      "ville",
+      "vue",
+      "y"
+    ]
+  },
+  "oc": {
+    "prefixe": [
+
+      "bourg",
+      "camp",
+
+      "campagne",
+
+      "castel",
+
+      "ga",
+
+      "lac",
+
+      "mar",
+      "mon",
+      "mont",
+
+      "mas",
+      "mou",
+      "moun",
+      "pla",
+      "roc",
+      "tuc",
+      "vill",
+      "ville"
+
+    ],
+    "suffixe": [
+      "aie",
+      "ac",
+      "an",
+      "anc",
+      "anche",
+      "anque",
+      "argues",
+      "asque",
+      "at",
+
+      "bas",
+      "basse",
+      "beau",
+      "bel",
+      "belle",
+      "bon",
+      "bonne",
+
+      "claire",
+      "court",
+      "courte",
+
+      "enc",
+      "enche",
+      "franche",
+
+      "grande",
+      "grande",
+      "haut",
+      "haute",
+      "jeune",
+      "morte",
+      "mortes",
+
+      "neuf",
+      "neuve",
+      "nouvelle",
+      "pech",
+
+      "petit",
+      "petite",
+
+      "os",
+      "osque",
+      "osse",
+      "rieu",
+      "riou",
+
+      "rouge",
+      "vieux,"
+    ]
+  }
+}

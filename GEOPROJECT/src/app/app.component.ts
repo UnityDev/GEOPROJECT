@@ -6,7 +6,7 @@ import {Observable} from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {GeoJsonObject} from "geojson";
-import {GeoJSONOptions, StyleFunction} from "leaflet";
+import {GeoJSON, GeoJSONOptions, StyleFunction} from "leaflet";
 import {Commune, Departement, Region} from "./shared/model";
 
 @Component({
@@ -61,34 +61,27 @@ export class AppComponent implements OnInit {
         that.http.get("assets/regions.geojson")
           .subscribe((res: any) => {
             const geojson: GeoJsonObject = res.json();
-            L.geoJSON(geojson
-              /* , {
-               style: function (feature) {
-                   switch (feature.properties.code) {
-                       case '53':
-                           return {color: "#ff0000"};
-                   }
-               }
-           }*/
-            ).addTo(map);
-            console.log("geojson", geojson);
+            const layers: GeoJSON = L.geoJSON(geojson);
+            layers.addTo(map);
             map.setView(new L.LatLng(46.85, 2.3518), 6);
             map.eachLayer(function (layer: any) {
               if (layer.feature) {
+                layer.setStyle({color: "#e73D3D"});
                 layer.bindPopup(layer.feature.properties.nom);
                 layer.on({
                   click: whenClicked
                 }, {t: that, l: layer});
                 layer.on("mouseover", function (e) {
-                  this.openPopup();
+                  this.setStyle({color: "#8A2424"});
+                  // this.openPopup();
                 });
                 layer.on("mouseout", function (e) {
-                  this.closePopup();
+                  this.setStyle({color: "#e73D3D"});
+                  // this.closePopup();
                 });
               }
 
               function whenClicked() {
-                console.log(this);
                 this.t.mapLocal.fitBounds(this.l.getBounds());
                 this.t.region = this.l.feature.properties;
               }
@@ -101,24 +94,26 @@ export class AppComponent implements OnInit {
   }
 
   private parseGeoJsonRegion() {
-    this.http.get("assets/regions.geojson")
-      .subscribe((res: any) => {
+    return this.http.get("assets/regions.geojson")
+      .map((res: any) => {
           const content = res.json();
           for (const feature of content.features) {
-            console.log(feature);
             const region: Region = new Region();
             region.code = feature.properties.code;
             region.nom = feature.properties.nom;
             region.feature = feature;
             this.regions.push(region);
           }
+          console.log("REGIONS : ", this.regions);
+          return true;
+
         }
       );
   }
 
-  private parseGeoJsonDpt() {
-    this.http.get("assets/departements-avec-outre-mer.geojson")
-      .subscribe((res: any) => {
+  private parseGeoJsonDpt(): Observable<boolean> {
+    return this.http.get("assets/departements-avec-outre-mer.geojson")
+      .map((res: any) => {
           const content = res.json();
           for (const feature of content.features) {
             const dpt: Departement = new Departement();
@@ -127,13 +122,15 @@ export class AppComponent implements OnInit {
             dpt.feature = feature;
             this.departements.push(dpt);
           }
+          console.log("DEPARTEMENTS : ", this.departements);
+          return true;
         }
       );
   }
 
-  private parseGeoJsonCommunes() {
-    this.http.get("assets/communes-avec-outre-mer.geojson")
-      .subscribe((res: any) => {
+  private parseGeoJsonCommunes(): Observable<boolean> {
+    return this.http.get("assets/communes-avec-outre-mer.geojson")
+      .map((res: any) => {
           const content = res.json();
           for (const feature of content.features) {
             const com: Commune = new Commune();
@@ -142,30 +139,67 @@ export class AppComponent implements OnInit {
             com.feature = feature;
             this.communes.push(com);
           }
+          console.log("COMMUNES : ", this.communes);
+          return true;
         }
       );
   }
 
-  private parseGeoJsonMetropoles() {
-    this.http.get("assets/metropole.geojson")
-      .subscribe((res: any) => {
+  private parseGeoJsonMetropoles(): Observable<boolean> {
+    return this.http.get("assets/metropole.geojson")
+      .map((res: any) => {
           const content = res.json();
-          console.log("METROPOLE", content);
+          return true;
         }
       );
   }
 
   private parseGeoJson() {
-    this.parseGeoJsonCommunes();
-    this.parseGeoJsonDpt();
-    this.parseGeoJsonRegion();
-    this.parseGeoJsonMetropoles();
+     this.parseGeoJsonCommunes().subscribe(
+      (result) => {
+        if (result) {
+          this.processCommunes();
+          return  this.parseGeoJsonDpt().subscribe(
+            (result2) => {
+              if (result2) {
+                this.processDpts();
+
+                return this.parseGeoJsonRegion().subscribe(
+                  (result3) => {
+                    if (result3) {
+                      this.processRegions();
+
+                      return this.parseGeoJsonMetropoles().subscribe(
+                        (result4) => {
+                          if (result4) {
+                            return true;
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+
+              }
+            }
+          );
+        }
+      }
+    );
   }
 
 
+  private processCommunes() {
+    console.log("COMMUNES : ", this.communes);
+  }
+  private processDpts() {
+    console.log("DEPARTEMENTS : ", this.departements);
+  }
+  private processRegions() {
+    console.log("REGIONS : ", this.regions);
+  }
   private clickOnRegion(region: any) {
     this.region = region;
-    console.log(region);
     const geojson: GeoJsonObject = region;
     const geojson2 = L.geoJSON(geojson);
     this.mapLocal.fitBounds(geojson2.getBounds());
