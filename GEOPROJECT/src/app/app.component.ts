@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.options = {
             layers: [
                 L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -262,7 +261,7 @@ export class AppComponent implements OnInit {
 
     private isLangueDOc(com: Commune, words: any): boolean {
         for (const prefix of words.oc.prefixe) {
-            if (com.nom.match(new RegExp("(^|\\s|-)" + prefix, "i"))) {
+            if (com.nom.match(new RegExp(  prefix + "(^|\\s|-)", "i"))) {
                 com.langue = Langue.Oc;
                 return true;
             }
@@ -278,13 +277,13 @@ export class AppComponent implements OnInit {
 
     private isLangueDOil(com: Commune, words: any): boolean {
         for (const prefix of words.oil.prefixe) {
-            if (com.nom.match(new RegExp("(^|\\s|-)" + prefix, "i"))) {
+            if (com.nom.match(new RegExp( "(^|\\s|-)" + prefix , "i"))) {
                 com.langue = Langue.Oil;
                 return true;
             }
         }
         for (const suffix of words.oil.suffixe) {
-            if (com.nom.match(new RegExp(suffix + "($|\\s|-)", "i"))) {
+            if (com.nom.match(new RegExp( suffix + "($|\\s|-)", "i"))) {
                 com.langue = Langue.Oil;
                 return true;
             }
