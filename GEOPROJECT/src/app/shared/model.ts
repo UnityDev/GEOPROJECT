@@ -1,9 +1,9 @@
-
-export class  Region  {
+export class Region {
     nom: string;
     code: string;
     langue: Langue;
     feature: any;
+
     constructor() {
 
     }
@@ -11,32 +11,33 @@ export class  Region  {
 }
 
 
-export class  Departement  {
-  nom: string;
-  code: string;
-  langue: Langue;
-  feature: any;
+export class Departement {
+    nom: string;
+    code: string;
+    langue: Langue;
+    feature: any;
 
-  constructor() {
+    constructor() {
 
-  }
+    }
 
 }
 
 
-export class  Commune  {
-  nom: string;
-  code: string;
-  langue: Langue;
-  feature: any;
+export class Commune {
+    nom: string;
+    code: string;
+    langue: Langue = Langue.Indefinie;
+    // feature: any;
 
-  constructor() {
+    constructor() {
 
-  }
+    }
 
 }
 
 export enum Langue {
-  Oc,
-  Oil
+    Indefinie,
+    Oc,
+    Oil,
 }
