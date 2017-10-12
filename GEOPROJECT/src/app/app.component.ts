@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
     departements: Departement[] = [];
     communes: Commune[] = [];
     communesGeo: any;
+    dptGeo: any;
 
     region: Region = new Region();
     loading = true;
@@ -98,7 +99,7 @@ export class AppComponent implements OnInit {
 
         const geojson: GeoJsonObject = this.communesGeo;
         const layers: GeoJSON = L.geoJSON(geojson);
-        layers.addTo(map);
+/*        layers.addTo(map);
         map.setView(new L.LatLng(46.85, 2.3518), 6);
         map.eachLayer(function (layer: any) {
             if (layer.feature) {
@@ -114,6 +115,59 @@ export class AppComponent implements OnInit {
                         // this.closePopup();
                     });
                 } else if (layer.feature.properties.com.langue === Langue.Oil) {
+
+                    layer.setStyle({color: "#82C71B"});
+                    layer.on("mouseover", function (e) {
+                        this.setStyle({color: "#4D7D05"});
+                        // this.openPopup();
+                    });
+                    layer.on("mouseout", function (e) {
+                        this.setStyle({color: "#82C71B"});
+                        // this.closePopup();
+                    });
+                } else {
+                    layer.setStyle({color: "#e73D3D"});
+                    layer.on("mouseover", function (e) {
+                        this.setStyle({color: "#8A2424"});
+                        // this.openPopup();
+                    });
+                    layer.on("mouseout", function (e) {
+                        this.setStyle({color: "#e73D3D"});
+                        // this.closePopup();
+                    });
+
+                }
+                layer.bindPopup(layer.feature.properties.nom);
+                layer.on({
+                    click: whenClicked
+                }, {t: that, l: layer});
+
+            }
+
+            function whenClicked() {
+                this.t.mapLocal.fitBounds(this.l.getBounds());
+                this.t.region = this.l.feature.properties;
+            }
+        }, this);*/
+
+        const geojson2: GeoJsonObject = this.dptGeo;
+        const layers2: GeoJSON = L.geoJSON(geojson2);
+        layers2.addTo(map);
+        map.setView(new L.LatLng(46.85, 2.3518), 6);
+        map.eachLayer(function (layer: any) {
+            if (layer.feature) {
+                if (layer.feature.properties.dpt.langue === Langue.Oc) {
+
+                    layer.setStyle({color: "#1BBCC7"});
+                    layer.on("mouseover", function (e) {
+                        this.setStyle({color: "#1B7DC7"});
+                        // this.openPopup();
+                    });
+                    layer.on("mouseout", function (e) {
+                        this.setStyle({color: "#1BBCC7"});
+                        // this.closePopup();
+                    });
+                } else if (layer.feature.properties.dpt.langue === Langue.Oil) {
 
                     layer.setStyle({color: "#82C71B"});
                     layer.on("mouseover", function (e) {
@@ -173,14 +227,34 @@ export class AppComponent implements OnInit {
         return this.http.get("assets/departements-avec-outre-mer.geojson")
             .map((res: any) => {
                     const content = res.json();
+                    this.dptGeo = content;
                     for (const feature of content.features) {
                         const dpt: Departement = new Departement();
                         dpt.code = feature.properties.code;
                         dpt.nom = feature.properties.nom;
                         dpt.feature = feature;
+                        let oc = 0;
+                        let oil = 0;
+                        for (const com of this.communes) {
+                            const match = (parseInt(dpt.code) ===  Math.trunc(parseInt(com.code) / 1000));
+                            if (match) {
+                                if (com.langue === Langue.Oc) {
+                                    oc++;
+                                } else if (com.langue === Langue.Oil) {
+                                    oil++;
+                                }
+                            }
+                        }
+                        if (oc > oil) {
+                            dpt.langue = Langue.Oc;
+                        } else if (oc < oil) {
+                            dpt.langue = Langue.Oil;
+                        } else {
+                            dpt.langue = Langue.Indefinie;
+                        }
+                        feature.properties.dpt = dpt;
                         this.departements.push(dpt);
                     }
-                    // console.log("DEPARTEMENTS : ", this.departements);
                     return true;
                 }
             );
@@ -197,7 +271,7 @@ export class AppComponent implements OnInit {
                         com.code = feature.properties.code;
                         com.nom = feature.properties.nom;
                         // com.feature = feature;
-                        this.processCommune(com, words);
+                         this.processCommune(com, words);
                         feature.properties.com = com;
                         this.communes.push(com);
                     }

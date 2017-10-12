@@ -1,7 +1,7 @@
 export class Region {
     nom: string;
     code: string;
-    langue: Langue;
+    langue: Langue  = Langue.Indefinie;
     feature: any;
 
     constructor() {
@@ -13,8 +13,8 @@ export class Region {
 
 export class Departement {
     nom: string;
-    code: string;
-    langue: Langue;
+    code: any;
+    langue: Langue  = Langue.Indefinie;
     feature: any;
 
     constructor() {
@@ -26,7 +26,7 @@ export class Departement {
 
 export class Commune {
     nom: string;
-    code: string;
+    code: any;
     langue: Langue = Langue.Indefinie;
     // feature: any;
 

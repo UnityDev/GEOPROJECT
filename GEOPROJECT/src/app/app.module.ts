@@ -1,9 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 
-import { AppComponent } from './app.component';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { AppComponent } from "./app.component";
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {HttpModule} from "@angular/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatProgressSpinnerModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import {HttpModule} from "@angular/http";
   imports: [
     BrowserModule,
     LeafletModule.forRoot(),
-    HttpModule
+    HttpModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
