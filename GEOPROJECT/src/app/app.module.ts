@@ -6,6 +6,8 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {HttpModule} from "@angular/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatProgressSpinnerModule} from "@angular/material";
+import {MatSidenavModule} from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import {MatProgressSpinnerModule} from "@angular/material";
     LeafletModule.forRoot(),
     HttpModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]

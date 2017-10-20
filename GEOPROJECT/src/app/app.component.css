@@ -3,10 +3,8 @@
 }
 
 #cont {
-}
-
-.cont{
-    text-align: center;
+  text-align:center;
+  position:relative;
 }
 
 .spinner {
@@ -14,4 +12,29 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 10vw;
+}
+
+mat-sidenav {
+  width: 300px;
+}
+
+.button-sidenav{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index:15000;
+  width:50px;
+  height:50px;
+  padding:10px;
+}
+
+.icon-search{
+  font-size:20px;
+}
+
+.depart-row{
+  text-align:center;
+  margin:0;
+  margin-bottom: 5px;
+  padding:0;
 }
