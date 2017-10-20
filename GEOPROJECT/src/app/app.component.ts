@@ -377,6 +377,7 @@ export class AppComponent implements OnInit {
                               // console.log("parse metr", result4);
                               if (result4) {
                                 this.loading = false;
+                                setTimeout(function(){ this.mapLocal.invalidateSize()}, 400);
                                 return true;
                               }
                             }

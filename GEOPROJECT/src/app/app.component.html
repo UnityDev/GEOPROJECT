@@ -1,24 +1,7 @@
-<mat-sidenav-container>
-  <div *ngIf="!loading; else elseBlock"  id="cont" class="container-fluid">
-    <div class="row">
-      <div id="map"
-           class=""
-           leaflet
-           [leafletOptions]="options"
-           (leafletMapReady)="onMapReady($event)">
-      </div>
-    </div>
-  </div>
-  <ng-template #elseBlock>
-    <div class="container-fluid cont">
-      <mat-spinner class="spinner"></mat-spinner>
-    </div>
-  </ng-template>
-  <div class="example-sidenav-content">
-    <button type="button" class="btn btn-primary button-sidenav btn-lg" (click)="sidenav.open()">
-      <span class="glyphicon glyphicon-search icon-search"></span>
-    </button>
-  </div>
+<div *ngIf="!loading; else elseBlock" class="cont" >
+<mat-sidenav-container class="map">
+
+
   <mat-sidenav #sidenav position="end">
     <div class="row">
       <button type="button" class="close pull-right" aria-label="Close" (click)="sidenav.close()">
@@ -31,7 +14,32 @@
   </mat-sidenav>
 
   <!-- primary content -->
+    <div class="map">
+      <div id="map"
+           class="map"
+           leaflet
+           [leafletOptions]="options"
+           (leafletMapReady)="onMapReady($event)">
+      </div>
+    </div>
+    <div class="button-sidenav">
+      <button type="button" class="btn btn-primary btn-lg" (click)="sidenav.open()">
+        <span class="glyphicon glyphicon-search icon-search"></span>
+      </button>
+      <button type="button" class="btn btn-primary btn-lg" (click)="reset()">
+        <span class="glyphicon glyphicon-home icon-home"></span>
+      </button>
+    </div>
+
+
 </mat-sidenav-container>
+</div>
+
+<ng-template #elseBlock>
+  <div class="cont">
+    <mat-spinner class="spinner"></mat-spinner>
+  </div>
+</ng-template>
 
 
 

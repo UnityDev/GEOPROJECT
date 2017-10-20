@@ -23,7 +23,7 @@ mat-sidenav {
   top: 20px;
   right: 20px;
   z-index:15000;
-  width:50px;
+  width:150px;
   height:50px;
   padding:10px;
 }
@@ -37,4 +37,20 @@ mat-sidenav {
   margin:0;
   margin-bottom: 5px;
   padding:0;
+}
+
+.cont {
+  width: 100vw;
+  height: 100vh;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-left: 0;
+}
+.map {
+  min-height: 100vh;
+  position: absolute;
+  outline: none;
+  height: 100Vh;
+  width: 100vw;
 }
