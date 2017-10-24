@@ -217,46 +217,48 @@ export class AppComponent implements OnInit {
         }
         for (const com of this.t.communesGeoArray[this.l.feature.properties.dpt.code]){
           console.log(com);
-          if (com.feature) {
-            if (com.feature.properties.com.langue === Langue.Oc) {
+          com.eachLayer(function(layer2: any){
+            if (layer2.feature) {
+              if (layer2.feature.properties.com.langue === Langue.Oc) {
 
-              com.setStyle({color: "#1BBCC7"});
-              com.on("mouseover", function (e) {
-                this.setStyle({color: "#1B7DC7"});
-                // this.openPopup();
-              });
-              com.on("mouseout", function (e) {
-                this.setStyle({color: "#1BBCC7"});
-                // this.closePopup();
-              });
-            } else if (com.feature.properties.com.langue === Langue.Oil) {
+                layer2.setStyle({color: "#1BBCC7"});
+                layer2.on("mouseover", function (e) {
+                  this.setStyle({color: "#1B7DC7"});
+                  // this.openPopup();
+                });
+                layer2.on("mouseout", function (e) {
+                  this.setStyle({color: "#1BBCC7"});
+                  // this.closePopup();
+                });
+              } else if (layer2.feature.properties.com.langue === Langue.Oil) {
 
-              com.setStyle({color: "#82C71B"});
-              com.on("mouseover", function (e) {
-                this.setStyle({color: "#4D7D05"});
-                // this.openPopup();
-              });
-              com.on("mouseout", function (e) {
-                this.setStyle({color: "#82C71B"});
-                // this.closePopup();
-              });
-            } else {
-              com.setStyle({color: "#e73D3D"});
-              com.on("mouseover", function (e) {
-                this.setStyle({color: "#8A2424"});
-                // this.openPopup();
-              });
-              com.on("mouseout", function (e) {
-                this.setStyle({color: "#e73D3D"});
-                // this.closePopup();
-              });
+                layer2.setStyle({color: "#82C71B"});
+                layer2.on("mouseover", function (e) {
+                  this.setStyle({color: "#4D7D05"});
+                  // this.openPopup();
+                });
+                layer2.on("mouseout", function (e) {
+                  this.setStyle({color: "#82C71B"});
+                  // this.closePopup();
+                });
+              } else {
+                layer2.setStyle({color: "#e73D3D"});
+                layer2.on("mouseover", function (e) {
+                  this.setStyle({color: "#8A2424"});
+                  // this.openPopup();
+                });
+                layer2.on("mouseout", function (e) {
+                  this.setStyle({color: "#e73D3D"});
+                  // this.closePopup();
+                });
+
+              }
+              layer2.bindPopup(layer2.feature.properties.nom);
 
             }
-            layer.bindPopup(layer.feature.properties.nom);
-
-          }
-          this.t.layers.push(com);
-          com.addTo(this.t.mapLocal);
+            this.t.layers.push(layer2);
+            layer2.addTo(this.t.mapLocal);
+          }, this);
         }
         this.t.mapLocal.fitBounds(this.l.getBounds());
         this.t.layer = this.l;
@@ -432,12 +434,14 @@ export class AppComponent implements OnInit {
 
   private processCommune(com: Commune, words, feature: any) {
     const dep = Math.floor(com.code / 1000);
-    if (this.communesGeoArray[dep]) {
-      this.communesGeoArray[dep].push(L.geoJSON(feature));
-    }
     const found = this.isLangueDOc(com, words);
     if (!found) {
       this.isLangueDOil(com, words);
+    }
+
+    feature.properties.com = com;
+    if (this.communesGeoArray[dep]) {
+      this.communesGeoArray[dep].push(L.geoJSON(feature));
     }
   }
 
