@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
       center: L.latLng([46.85, 2.3518])
     };
 
+
     this.parseGeoJson();
   }
 
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit {
     console.log("ON MAP READY");
     const that = this;
     this.mapLocal = map;
+    this.mapLocal.options.preferCanvas = true;
     this.http.get("assets/metropole.geojson")
       .subscribe((res: any) => {
         const geojson: GeoJsonObject = res.json();
@@ -472,6 +474,11 @@ export class AppComponent implements OnInit {
     }
     this.mapLocal.setView(new L.LatLng(46.85, 2.3518), 6);
   }
+
+  private print() {
+  }
+
+
 }
 
 
