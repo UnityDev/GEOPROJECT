@@ -54,3 +54,10 @@ mat-sidenav {
   height: 100Vh;
   width: 100vw;
 }
+
+.legend {
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  z-index: 1000;
+}

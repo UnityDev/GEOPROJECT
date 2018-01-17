@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   mapLocal: L.Map = null;
 
   fileContent;
+  zoomedOnCom = false;
 
   regions: Region[] = [];
   departements: Departement[] = [];
@@ -33,6 +34,8 @@ export class AppComponent implements OnInit {
   loading = true;
   layer: Layer;
   layers: Layer[] = new Array();
+
+
 
   constructor(private http: Http) {
   }
@@ -53,7 +56,12 @@ export class AppComponent implements OnInit {
         })
       ],
       zoom: 4,
-      center: L.latLng([46.85, 2.3518])
+      center: L.latLng([46.85, 2.3518]),
+      legend: {
+        position: "bottomright",
+        colors: [ "#c0c0c0", "#c0c0c0", "#c0c0c0" ],
+        labels: [ "Langue d'Oc", "Langue d'Oil", "Undefined" ]
+      }
     };
 
 
@@ -190,13 +198,13 @@ export class AppComponent implements OnInit {
             // this.closePopup();
           });
         } else {
-          layer.setStyle({color: "#e73D3D"});
+          layer.setStyle({color: "#c0c0c0"});
           layer.on("mouseover", function (e) {
-            this.setStyle({color: "#8A2424"});
+            this.setStyle({color: "#4c4c4c"});
             // this.openPopup();
           });
           layer.on("mouseout", function (e) {
-            this.setStyle({color: "#e73D3D"});
+            this.setStyle({color: "#c0c0c0"});
             // this.closePopup();
           });
 
@@ -244,18 +252,19 @@ export class AppComponent implements OnInit {
                   // this.closePopup();
                 });
               } else {
-                layer2.setStyle({color: "#e73D3D"});
+                layer2.setStyle({color: "#c0c0c0"});
                 layer2.on("mouseover", function (e) {
-                  this.setStyle({color: "#8A2424"});
+                  this.setStyle({color: "#4c4c4c"});
                   // this.openPopup();
                 });
                 layer2.on("mouseout", function (e) {
-                  this.setStyle({color: "#e73D3D"});
+                  this.setStyle({color: "#c0c0c0"});
                   // this.closePopup();
                 });
 
               }
               layer2.bindPopup(layer2.feature.properties.nom);
+              // this.t.mapLocal.fitBounds(layer2.getBounds());
 
             }
             this.t.layers.push(layer2);

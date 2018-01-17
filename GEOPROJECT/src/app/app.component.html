@@ -1,25 +1,31 @@
-<div *ngIf="!loading; else elseBlock" class="cont" >
-<mat-sidenav-container class="map">
+<div *ngIf="!loading; else elseBlock" class="cont">
+  <mat-sidenav-container class="map">
 
 
-  <mat-sidenav #sidenav position="end">
-    <div class="row">
-      <button type="button" class="close pull-right" aria-label="Close" (click)="sidenav.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="row depart-row" *ngFor="let d of departements">
-      <button class="btn btn-primary" (click)="clickOnRegion(r.feature)">{{d.code}} - {{d.nom}}</button>
-    </div>
-  </mat-sidenav>
+    <mat-sidenav #sidenav position="end">
+      <div class="row">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="sidenav.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="row depart-row" *ngFor="let d of departements">
+        <button class="btn btn-primary" (click)="clickOnRegion(r.feature)">{{d.code}} - {{d.nom}}</button>
+      </div>
+    </mat-sidenav>
 
-  <!-- primary content -->
+    <!-- primary content -->
     <div class="map">
       <div id="map"
            class="map"
            leaflet
            [leafletOptions]="options"
-           (leafletMapReady)="onMapReady($event)">
+           (leafletMapReady)="onMapReady($event)"
+      >
+      </div>
+      <div class="legend container-fluid">
+        <div class="row">langue oc</div>
+        <div class="row">langue oil</div>
+        <div class="row">undefined</div>
       </div>
     </div>
     <div class="button-sidenav">
@@ -35,7 +41,7 @@
     </div>
 
 
-</mat-sidenav-container>
+  </mat-sidenav-container>
 </div>
 
 <ng-template #elseBlock>
